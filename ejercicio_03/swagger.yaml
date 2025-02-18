@@ -1,0 +1,128 @@
+openapi: 3.0.0
+info:
+  title: API de Pacientes
+  description: API para la gestión de pacientes
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api-docs
+    description: Servidor local
+tags:
+  - name: Pacientes
+    description: Operaciones relacionadas con pacientes
+
+paths:
+  /pacientes:
+    get:
+      summary: Obtener la lista de pacientes
+      tags:
+        - Pacientes
+      responses:
+        "200":
+          description: Lista de pacientes obtenida con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Paciente"
+    post:
+      summary: Crear un nuevo paciente
+      tags:
+        - Pacientes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Paciente"
+      responses:
+        "201":
+          description: Paciente creado exitosamente
+        "400":
+          description: Error en la solicitud
+
+  /pacientes/{id}:
+    get:
+      summary: Obtener un paciente por ID
+      tags:
+        - Pacientes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Paciente obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Paciente"
+        "404":
+          description: Paciente no encontrado
+    put:
+      summary: Actualizar un paciente por ID
+      tags:
+        - Pacientes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Paciente"
+      responses:
+        "200":
+          description: Paciente actualizado correctamente
+        "400":
+          description: Error en la solicitud
+        "404":
+          description: Paciente no encontrado
+    delete:
+      summary: Eliminar un paciente por ID
+      tags:
+        - Pacientes
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Paciente eliminado correctamente
+        "404":
+          description: Paciente no encontrado
+
+components:
+  schemas:
+    Paciente:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "60d0fe4f5311236168a109ca"
+        name:
+          type: string
+          example: "Juan"
+        surname:
+          type: string
+          example: "Perez"
+        age:
+          type: integer
+          example: 45
+        sex:
+          type: string
+          example: "Masculino"
+        treatment:
+          type: string
+          example: "Fisioterapia"
+        diagnostic:
+          type: string
+          example: "Fractura de tibia"
